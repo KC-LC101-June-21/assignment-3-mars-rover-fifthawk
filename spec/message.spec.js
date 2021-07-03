@@ -1,24 +1,37 @@
-const Message = require('../message.js');
+const assert = require('assert');
 const Command = require('../command.js');
+const Message = require("../message.js")
 
-// NOTE: If at any time, you want to focus on the output from a single test, feel free to comment out all the others.
-//       However, do NOT edit the grading tests for any reason and make sure to un-comment out your code to get the autograder to pass.
+describe ("Message Class", function(){
+ 
+  it( "throws error if a name is NOT passed into the constructor as the first parameter", function() {
+    assert.throws(
+      function() {
+       new Message();
+    },
+    {
+      message: "Message Type required."
+    }
+    );
+  })
 
-describe("Message class", function() {
+   it('should confirem construcot in the Message class sets name property in a new message object', function(){
+    let newMessage = new Message ('this is name', "MOVE")
+    assert.equal(newMessage.name,'this is name')
+  })
 
-  it("throws error if a name is NOT passed into the constructor as the first parameter", function() {
-    expect( function() { new Message();}).toThrow(new Error('Message name required.'));
-  });
+  it("should confirm that the commands property of a new message object contains the data passed in from the commands",function(){
+    let commands = [ new Command('MODE_CHANGE','LOW_POWER'), new Command('STATUS_CHECK')];
 
-  it("constructor sets name", function() {
-    let message = new Message('New message!');
-    expect(message.name).toEqual('New message!');
-  });
+let newMessage = new Message ('name of something','LOW_POWER')
 
-  it("contains a commands array passed into the constructor as 2nd argument", function() {
-    let commands = [new Command('STATUS_CHECK'), new Command('MOVE', 20)];
-    let message = new Message('Another message!', commands);
-    expect(message.commands).toEqual(commands);
-  });
+    assert.equal(
+      newMessage.commands, 'LOW_POWER'
+    )
+  })
+})
 
-});
+
+
+let commands = [ new Command('MODE_CHANGE','LOW_POWER'), new Command('STATUS_CHECK')];
+let message = new Message('Test message with two commands', commands);
